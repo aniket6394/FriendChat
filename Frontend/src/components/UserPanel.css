@@ -1,0 +1,27 @@
+.user-panel {
+  width: 180px;
+  height: 180px;
+  background: #334155;
+  border-radius: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+
+  transition: 0.2s;
+}
+
+.user-panel:hover {
+  transform: scale(1.03);
+  border: 2px solid #60a5fa;
+}
+
+.empty {
+  opacity: 0.4;
+}

@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { socket } from "../socket/socket";
 import { generateName } from "../util/name";
+
+import ChatPanel from "../components/ChatPanel";
+import UserPanel from "../components/UserPanel";
+
+import "./Room.css";
 
 export default function Room() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const location = useLocation();
-  const [username] = useState(() => {
-    return (
-      location.state?.username || localStorage.getItem("name") || generateName()
-    );
-  });
+
+  const [username] = useState(() => generateName());
+
   const [users, setUsers] = useState([]);
   const [host, setHost] = useState(null);
-  useEffect(() => {
-    if (location.state?.username) {
-      localStorage.setItem("name", location.state.username);
-    } else if (!localStorage.getItem("name")) {
-      localStorage.setItem("name", username);
-    }
-  }, [username, location.state]);
+
   useEffect(() => {
     if (!id || !username) return;
 
@@ -44,27 +40,45 @@ export default function Room() {
       navigate("/");
     };
 
+    const onUserLeft = (data) => {
+      alert(`${data.name} left the room`);
+    };
+
     socket.on("room-users", onUsers);
     socket.on("room-full", onFull);
     socket.on("invalid-room", onInvalid);
+    socket.on("user-left", onUserLeft);
 
     return () => {
       socket.off("room-users", onUsers);
       socket.off("room-full", onFull);
       socket.off("invalid-room", onInvalid);
+      socket.off("user-left", onUserLeft);
+
+      socket.emit("leave-room");
     };
-  }, [id, username, navigate]);
+  }, []);
 
   return (
-    <>
-      <p>Room ID: {id}</p>
-      <h3>Users:</h3>
-      {users.map((user) => (
-        <p key={user.socketId}>
-          {user.name}
-          {user.socketId === host && " 👑"}
-        </p>
-      ))}
-    </>
+    <div className="room-container">
+      {/* LEFT SIDE */}
+      <div className="side-panel">
+        <UserPanel name={users[0]} host={host} />
+        <UserPanel name={users[1]} host={host} />
+      </div>
+
+      {/* CENTER CHAT */}
+      <div className="chat-section">
+        <div className="room-header">Room ID: {id}</div>
+
+        <ChatPanel username={username} roomId={id} />
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className="side-panel">
+        <UserPanel name={users[2]} host={host} />
+        <UserPanel name={users[3]} host={host} />
+      </div>
+    </div>
   );
 }
