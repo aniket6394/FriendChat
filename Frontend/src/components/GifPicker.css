@@ -1,0 +1,93 @@
+.gif-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10000;
+}
+
+.gif-picker {
+  width: 700px;
+  max-height: 80vh;
+
+  background: #1e293b;
+
+  border-radius: 15px;
+
+  padding: 20px;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.gif-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 15px;
+}
+
+.gif-header h3 {
+  color: white;
+}
+
+.gif-header button {
+  border: none;
+
+  background: none;
+
+  color: white;
+
+  font-size: 20px;
+
+  cursor: pointer;
+}
+
+.gif-search {
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  border: none;
+
+  margin-bottom: 18px;
+
+  background: #334155;
+
+  color: white;
+}
+
+.gif-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+
+  gap: 10px;
+
+  overflow-y: auto;
+}
+
+.gif-grid img {
+  width: 100%;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.gif-grid img:hover {
+  transform: scale(1.04);
+}

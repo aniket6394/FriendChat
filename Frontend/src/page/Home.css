@@ -1,174 +1,194 @@
+/* ============================================
+   Theme: WhatsApp warmth + Discord structure,
+   kept minimal — one accent, flat surfaces,
+   no gradients, no shadows for shadows' sake.
+   ============================================ */
+
+:root {
+  --bg: #1a1d21; /* Discord-esque app background */
+  --surface: #21252b; /* card surface */
+  --surface-2: #16181c; /* input wells, sunken elements */
+  --border: #2c3036;
+  --text: #e7e9ea;
+  --text-muted: #8a8f98;
+  --accent: #25d366; /* WhatsApp green */
+  --accent-hover: #1fb958;
+  --accent-soft: rgba(37, 211, 102, 0.12);
+}
+
 body {
   margin: 0;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  color: #ffffff;
+  background: var(--bg);
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
-.container {
-  height: 100vh;
+.home-container {
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(
-    circle at 20% 50%,
-    rgba(255, 0, 150, 0.1),
-    transparent 50%
-  );
+  padding: 24px;
 }
+
+/* ---------- brand header ---------- */
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.brand-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: var(--accent);
+  color: #0b1410;
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+}
+
+.title {
+  color: var(--text);
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 6px 0 0;
+}
+
+/* ---------- card ---------- */
 
 .card {
-  background: rgba(20, 15, 45, 0.9);
-  backdrop-filter: blur(10px);
-  padding: 40px;
-  border-radius: 24px;
-  width: 350px;
-  text-align: center;
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.5),
-    0 0 0 2px rgba(0, 255, 255, 0.3),
-    0 0 20px rgba(0, 255, 255, 0.3);
-  border: 1px solid rgba(0, 255, 255, 0.5);
+  width: 100%;
+  max-width: 360px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.card h1 {
-  margin-bottom: 25px;
-  font-size: 28px;
-  background: linear-gradient(135deg, #ff006e, #ffbe0b, #3a86ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-weight: 700;
-  text-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+.field-label {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 10px 0 2px;
 }
+
+.field-label:first-child {
+  margin-top: 0;
+}
+
+/* ---------- inputs ---------- */
 
 .input {
-  width: 100%;
-  padding: 14px;
-  margin: 10px 0;
-  border: 2px solid #ff006e;
-  border-radius: 12px;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
   outline: none;
-  background: rgba(10, 5, 25, 0.8);
-  color: #fff;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-.input:focus {
-  border-color: #00f5ff;
-  box-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
-  background: rgba(10, 5, 25, 0.95);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 15px;
+  transition: border-color 0.15s ease;
 }
 
 .input::placeholder {
-  color: #b5179e;
-  font-weight: 500;
+  color: var(--text-muted);
 }
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+/* ---------- buttons ---------- */
 
 .button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
+  margin-top: 6px;
+  padding: 13px;
   border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff006e, #ffbe0b);
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-size: 15px;
+  font-weight: 600;
+  transition:
+    background 0.15s ease,
+    opacity 0.15s ease;
 }
 
-.button:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow:
-    0 10px 30px rgba(255, 0, 110, 0.5),
-    0 0 20px rgba(255, 190, 11, 0.5);
-  background: linear-gradient(135deg, #ff3366, #ffcc33);
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
-.button:active {
-  transform: translateY(1px);
+.button.primary {
+  background: var(--accent);
+  color: #0b1410;
 }
+
+.button.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.button.secondary:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+}
+
+/* ---------- divider ---------- */
 
 .divider {
-  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
   font-size: 12px;
-  color: #ffbe0b;
-  font-weight: 600;
-  position: relative;
-  text-shadow: 0 0 5px rgba(255, 190, 11, 0.5);
+  margin: 14px 0 4px;
 }
 
 .divider::before,
 .divider::after {
   content: "";
-  position: absolute;
-  top: 50%;
-  width: calc(50% - 30px);
-  height: 2px;
-  background: linear-gradient(90deg, #ff006e, #ffbe0b, #3a86ff);
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
-.divider::before {
-  left: 0;
+.divider span {
+  padding: 0 10px;
 }
 
-.divider::after {
-  right: 0;
-}
+/* ---------- responsive ---------- */
 
-/* Vibrant scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1a0b2e;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #ff006e, #ffbe0b);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #ff3366, #ffcc33);
-}
-
-/* Vibrant selection */
-::selection {
-  background: #ff006e;
-  color: #ffbe0b;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-::-moz-selection {
-  background: #ff006e;
-  color: #ffbe0b;
-}
-
-/* Add glowing animation effect */
-@keyframes pulse {
-  0%,
-  100% {
-    box-shadow:
-      0 0 0 2px rgba(0, 245, 255, 0.3),
-      0 0 20px rgba(0, 245, 255, 0.3);
+@media (max-width: 480px) {
+  .card {
+    padding: 22px;
   }
-  50% {
-    box-shadow:
-      0 0 0 4px rgba(0, 245, 255, 0.5),
-      0 0 30px rgba(0, 245, 255, 0.5);
-  }
-}
 
-.card {
-  animation: pulse 3s infinite;
+  .title {
+    font-size: 24px;
+  }
 }
