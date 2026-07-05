@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-
 import { socket } from "../socket/socket";
+import useMedia from "../hooks/useMedia";
 
 import ChatPanel from "../components/ChatPanel";
 import UserPanel from "../components/UserPanel";
-
 import "./Room.css";
 import toast from "react-hot-toast";
 
@@ -13,13 +12,37 @@ export default function Room() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
-
+  const { toggleMic, toggleVideo, micEnabled } = useMedia(id);
   const username = location.state?.username;
   const avatar = location.state?.avatar;
 
   const [users, setUsers] = useState([]);
   const [host, setHost] = useState(null);
-
+  const [mySocketId, setMySocketId] = useState("");
+  useEffect(() => {
+    const onMicStatus = ({ socketId, enabled }) => {
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.socketId === socketId ? { ...user, mic: enabled } : user,
+        ),
+      );
+    };
+    socket.on("mic-status", onMicStatus);
+    return () => {
+      socket.off("mic-status", onMicStatus);
+    };
+  }, []);
+  useEffect(() => {
+    if (socket.connected) {
+      setMySocketId(socket.id);
+    }
+    socket.on("connect", () => {
+      setMySocketId(socket.id);
+    });
+    return () => {
+      socket.off("connect");
+    };
+  }, []);
   useEffect(() => {
     if (!id || !username) {
       return;
@@ -68,7 +91,14 @@ export default function Room() {
         </div>
 
         {users.map((user) => (
-          <UserPanel key={user.socketId} name={user} host={host} />
+          <UserPanel
+            key={user.socketId}
+            name={user}
+            host={host}
+            isMe={user.socketId === mySocketId}
+            toggleMic={toggleMic}
+            micEnabled={micEnabled}
+          />
         ))}
       </div>
 

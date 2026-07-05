@@ -133,3 +133,52 @@
 .empty-card p {
   font-size: 14px;
 }
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.active-icon {
+  color: #4caf50;
+  font-size: 16px;
+}
+
+.inactive-icon {
+  color: #999;
+  font-size: 16px;
+}
+.mic-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 15px;
+}
+
+.mic-btn:hover {
+  transform: scale(1.08);
+}
+
+.mic-on {
+  background: #22c55e;
+  color: white;
+}
+
+.mic-off {
+  background: #ef4444;
+  color: white;
+}
+
+.mic-disabled {
+  cursor: default;
+}
+
+.mic-disabled:hover {
+  transform: none;
+}

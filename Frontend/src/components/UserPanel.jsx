@@ -1,13 +1,21 @@
 import "./UserPanel.css";
-import { FaCrown, FaMicrophone, FaVideo, FaCircle } from "react-icons/fa";
+import {
+  FaCrown,
+  FaMicrophone,
+  FaMicrophoneSlash,
+  FaCircle,
+} from "react-icons/fa";
+
 import avatar1 from "./avatars/avatar1.png";
 import avatar2 from "./avatars/avatar2.png";
 import avatar3 from "./avatars/avatar3.png";
 import avatar4 from "./avatars/avatar4.png";
-import toast from "react-hot-toast";
+
 const avatars = [avatar1, avatar2, avatar3, avatar4];
 
-export default function UserPanel({ name, host }) {
+export default function UserPanel({ name, host, isMe, toggleMic, micEnabled }) {
+  const micOn = isMe ? micEnabled : name.mic;
+
   return (
     <div className={`user-card ${name.socketId === host ? "host-card" : ""}`}>
       <img src={avatars[name.avatar]} alt="avatar" className="avatar" />
@@ -25,15 +33,15 @@ export default function UserPanel({ name, host }) {
             Online
           </span>
 
-          <div className="actions">
-            <button title="Microphone">
-              <FaMicrophone />
-            </button>
-
-            <button title="Video">
-              <FaVideo />
-            </button>
-          </div>
+          <button
+            className={`mic-btn ${micOn ? "mic-on" : "mic-off"} ${
+              !isMe ? "mic-disabled" : ""
+            }`}
+            onClick={isMe ? toggleMic : undefined}
+            title={micOn ? "Microphone On" : "Microphone Off"}
+          >
+            {micOn ? <FaMicrophone /> : <FaMicrophoneSlash />}
+          </button>
         </div>
       </div>
     </div>

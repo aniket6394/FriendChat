@@ -35,8 +35,6 @@ function handleJoin(socket, io, { roomId, username, avatar }) {
 
       // Voice / Video State
       mic: false,
-      camera: false,
-      screenShare: false,
     });
 
     const joinMessage = {
@@ -180,22 +178,6 @@ function handleMic(io, socket, { roomId, enabled }) {
   });
 }
 
-function handleCamera(io, socket, { roomId, enabled }) {
-  const room = rooms.get(roomId);
-
-  if (!room) return;
-
-  const user = room.users.find((u) => u.socketId === socket.id);
-
-  if (!user) return;
-
-  user.camera = enabled;
-
-  io.to(roomId).emit("camera-status", {
-    socketId: socket.id,
-    enabled,
-  });
-}
 module.exports = {
   rooms,
   createRoom,
@@ -205,5 +187,4 @@ module.exports = {
   handleGif,
   handleImage,
   handleMic,
-  handleCamera,
 };

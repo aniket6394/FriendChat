@@ -18,7 +18,6 @@ const {
   handleGif,
   handleImage,
   handleMic,
-  handleCamera,
 } = require("./data/roomData");
 
 const app = express();
@@ -67,10 +66,6 @@ io.on("connection", (socket) => {
 
   socket.on("mic-status", (data) => {
     handleMic(io, socket, data);
-  });
-
-  socket.on("camera-status", (data) => {
-    handleCamera(io, socket, data);
   });
   // ---------------- WEBRTC SIGNALING ----------------
 
